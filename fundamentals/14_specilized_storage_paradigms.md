@@ -1,0 +1,80 @@
+# Specialized Storage Paradigms
+
+### Terms before beginning
+- Blob storage
+  - not really db's
+  - only allow the storage and retreival of data based on the name of that blob (so like key value store?)
+  - like key value store, but diff guarantees. might be slower, but values can be megabytes large (or GB)
+  - usually used to store things like binarues, database snapshots, images and other static content
+  - tools like GCS or S3
+- Time Series db's
+  - TSDB optimized for storing and analyzing time indexed data
+  - that is, data points that specifically occur at a given moment in time
+- Graph db
+  - stores data following the graph data model
+  - data entries have explicitly defined relationships, like nodes in a graph can have edges
+  - complex queries that rely in such relationships are thus quicker
+  - used for social networks for example
+- Cypher
+  - this is a graph query language
+  - originally developed for Neo4j, but now can be used for others
+  - much simplier than their SQL counterparts
+- Spatial db
+  - optimized for storing and querying spatial data like locations on a map
+  - rely in spatial indexes like quadtrees (explained below)
+  - used to find (eg) all locations in the vicinity of a region
+- Quadtree
+  - used to index twoD spatial data
+  - each node either has zero children (its a leaf) or 4
+  - typically, quadtree node contain some form of spatial data (locations on a map) with a max capacity *n*.
+  - so long as nodes aren't at capacity, they remain leafs. once they reach capacity, they're given four children nodes and their data entries are split across the four
+  - ideal for stroing spatial data because it can be represented as a grid filled with rectangles that are recursively subdivided into four sub-rectangles, where each quadtree node is represented by a rectangle and each rectangle represents a spatial region
+  - assuming we're storing locations in the world, a quadtree with max *n* would look like
+    - the root node is the entire world (outter most triangle )
+    - if the world has more than *n* locations, the outermost rectangle is divided into four quadrants (regions)
+    - so long as a region has more than *n* locations, that rectangle is subdivided into four
+    - regions that have fewer than *n* locations are undivided rectangles (leaf nodes)
+    - the parts of the grid that have many subdivided rectangles are densely populated, whereas the parts that have few subdivided rectangles represetn sparsely populated areas
+  - finding a iven location in a perfect quadtree is super quick, O(log_4(x)) where x is the total num of locations
+- Google Cloud Storage
+  - GCS is a blob store service provided by Google
+- S3
+  - blob store service provided by Amazon through AWS
+- InfuxDB
+  - open source time series db
+- Prometheus
+  - open source time series database, typically used for monitoring
+- Noe4j
+  - graoh db that consists of nodes, relationships, properties, labels
+
+### Getting into it
+- Blob store
+  - stands for binary large object
+  - arbitary piece of unstructured data
+  - doesnt fit into a SQL db / tabular
+  - kind of like key value store
+    - blob's are massive amounts of data
+    - key value stores solve for latency
+    - blobs for data volumes
+    - so don't confuse the two
+- Time Series
+  - often used for monitoring purposes
+  - data relative to time
+  - time series like computations
+    - aggregate between time
+    - max / min
+  - used for IOT too / stocks etc
+- Graph
+  - graph data structure
+  - used when there are a lot of relationships between enties
+  - SQL not optimised for this (you get loads of joins etc)
+  - build on top of a graph data model
+  - relationships are primary (SQL it's implied)
+  - social networks
+  - most popular is Neo4j
+- Spatial
+  - locations on a map
+  - SQL database indexs are good for singel column, to make queries pretty quick
+  - but not when you want to do queries on things like latitude and longitude, thats where spatial comes in
+  - you have spatial index
+  - 
